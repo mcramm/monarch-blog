@@ -1,0 +1,6 @@
+{:up ["CREATE TABLE posts (
+        id    SERIAL PRIMARY KEY,
+        title TEXT NOT NULL,
+        body  TEXT NOT NULL
+       )"]
+ :down ["DROP TABLE posts"]}
