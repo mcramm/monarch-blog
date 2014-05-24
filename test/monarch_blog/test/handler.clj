@@ -14,38 +14,48 @@
     (let [response (app (request :get "/posts/new"))]
       (is (= (:status response) 200))
       (is (= (:body response) (layout
-                                [:form {:action "/posts" :method "POST"}
-                                 [:label {:for "title"} "Title"]
-                                 [:input {:type "text" :id "title" :name "title"}]
-                                 [:label {:for "body"} "Body"]
-                                 [:textarea {:id "body" :name "body"}]]) ))))
+                                [:h3 "New Post"]
+                                [:form {:action "/posts" :method "POST" :class "new-post"}
+                                 [:div.form-line
+                                  [:label {:for "title"} "Title"]
+                                  [:input {:type "text" :class "field" :id "title" :name "title"}]]
+                                 [:div.form-line
+                                  [:label {:for "body"} "Body"]
+                                  [:textarea {:id "body" :class "field" :name "body"}]]
+                                 [:div.form-line
+                                  [:input {:type "submit" :class "submit" :value "Submit"}]]])))))
 
   (testing "new post with post param"
     (let [test-post {:title "Finches" :body "I like finches they are cool."}
           response (app (request :get "/posts/new" test-post))]
       (is (= (:status response) 200))
       (is (= (:body response) (layout
-                                [:form {:action "/posts" :method "POST"}
-                                 [:label {:for "title"} "Title"]
-                                 [:input {:type "text" :id "title" :name "title" :value (:title test-post)}]
-                                 [:label {:for "body"} "Body"]
-                                 [:textarea {:id "body" :name "body"} (:body test-post)]]) ))))
+                                [:h3 "New Post"]
+                                [:form {:action "/posts" :method "POST" :class "new-post"}
+                                 [:div.form-line
+                                  [:label {:for "title"} "Title"]
+                                  [:input {:type "text" :class "field" :id "title" :name "title" :value (:title test-post)}]]
+                                 [:div.form-line
+                                  [:label {:for "body"} "Body"]
+                                  [:textarea {:id "body" :name "body" :class "field"} (:body test-post)]]
+                                 [:div.form-line
+                                  [:input {:type "submit" :value "Submit" :class "submit"}]]])))))
 
   (testing "new post with post param"
     (let [test-post {:title "Finches" :body "I like finches they are cool."}
-          response (app (request :post "/posts/new" test-post))]
+          response (app (request :post "/posts" test-post))]
       (is (= (:status response) 302))
       (is (re-find #"/posts/\d+"(get-in response [:headers "Location"])))))
 
   (testing "new post rerenders form when missing title"
     (let [test-post {:body "I like finches they are cool."}
-          response (app (request :post "/posts/new" test-post))]
+          response (app (request :post "/posts" test-post))]
       (is (= (:status response) 200))
       (is (= (:body response) (new-post test-post)))))
 
   (testing "new post rerenders form when missing body"
     (let [test-post {:title "Finches"}
-          response (app (request :post "/posts/new" test-post))]
+          response (app (request :post "/posts" test-post))]
       (is (= (:status response) 200))
       (is (= (:body response) (new-post test-post)))))
 
