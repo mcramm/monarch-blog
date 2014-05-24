@@ -6,7 +6,18 @@
             [hiccup.core :refer [html]]
             [hiccup.element :refer [link-to]]
             [hiccup.page :refer [include-css]]
-            [hiccup.form :refer [text-field text-area form-to label submit-button]]))
+            [hiccup.form :refer [text-field text-area form-to label submit-button]]
+            [clojure.java.jdbc :as sql]))
+
+(def spec (System/getenv "DATABASE_URL"))
+
+(defn all-posts []
+  (into [] (sql/query spec
+                      ["select * from posts order by id"])))
+
+(defn save-post [{title :title body :body :as post}]
+  (when-not (or (empty? title) (empty? body))
+    (sql/insert! spec :posts post)))
 
 (defn layout [& body]
   (html
@@ -17,10 +28,15 @@
      [:h1 "My Blog"]
      body]))
 
-(defn index []
+(defn post-link [{id :id title :title}]
+  (link-to (str "/posts/" id)
+           title))
+
+(defn index [posts]
   (layout
     [:div.posts
-     (link-to "/posts/new" "New Post")]))
+     (link-to "/posts/new" "New Post")
+     (map post-link posts)]))
 
 (defn new-post [post]
   (layout
@@ -35,15 +51,12 @@
              [:div.form-line
               (submit-button {:class "submit"} "Submit")])))
 
-(defn save-post [{title :title body :body :as post}]
-  (when (and title body)
-    (assoc post :id 123)))
 
 (defroutes app-routes
-  (GET "/" [] (index))
+  (GET "/" [] (index (all-posts)))
   (GET "/posts/new" {post :params} (new-post post))
   (POST "/posts" {post :params} (if-let [saved-post (save-post post)]
-                                  (redirect (str "/posts/" (:id saved-post)))
+                                  (redirect (str "/posts/" (:id (first saved-post))))
                                   (new-post post)))
   (route/resources "/")
   (route/not-found "Not Found"))

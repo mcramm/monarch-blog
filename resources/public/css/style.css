@@ -68,6 +68,11 @@ div.alert {
   margin: 1.2em 0;
 }
 
+div.posts a {
+  display: block;
+  margin: 1em 0;
+}
+
 form.new-post {
   width: 50%;
 }

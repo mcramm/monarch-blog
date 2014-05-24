@@ -1,7 +1,17 @@
 (ns monarch-blog.test.handler
+  (:require [clojure.java.jdbc :as sql])
   (:use clojure.test
         ring.mock.request
         monarch-blog.handler))
+
+(def test-spec "postgresql://localhost:5432/test_monarch_blog")
+
+(defn reset-posts [f]
+  (f)
+  (sql/db-do-commands test-spec
+                      "delete from posts"))
+
+(use-fixtures :once reset-posts)
 
 (deftest test-app
   (testing "main route"
