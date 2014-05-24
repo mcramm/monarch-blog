@@ -1,0 +1,95 @@
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+input {
+  margin: 0;
+}
+
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  font-family: "Helvetica Neue", Helvetica, Arial;
+}
+
+h1 {
+  font-size: 2.5em;
+  margin: 0.25em 0 1em 0;
+}
+
+h2 {
+  font-size: 2em;
+  margin: 0.25em 0 1em 0;
+}
+
+h3 {
+  font-size: 1.5em;
+  color: grey;
+  margin: 0.25em 0 1em 0;
+}
+
+main.container {
+  max-width: 50rem;
+  margin: 0 auto;
+  flex: 1;
+  width: 100%;
+  padding: 1.5em;
+}
+
+header.nav a:last-child {
+  padding-right: 0;
+}
+
+div.posts a {
+  display: block;
+  margin: 1em 0;
+}
+
+form.new-post {
+  width: 50%;
+}
+
+form.new-post div.form-line {
+  display: flex;
+  margin-bottom: 1em;
+}
+
+form.new-post label {
+  border-radius: 2px 0 0 2px;
+  border: 1px solid rgba(147,128,108,.25);
+  padding: 0.5em 0.75em;
+  background-color: rgba(147,128,108,.1);
+  color: #666;
+  font-weight: 400;
+  min-width: 7rem;
+}
+
+form.new-post .field {
+  border-radius: 0 2px 2px 0;
+  border: 1px solid rgba(147,128,108,.25);
+  border-left: none;
+  padding: 0.5em 0.75em;
+  flex: 1;
+  line-height: normal;
+  margin: 0;
+}
+
+form.new-post div.form-line:last-child {
+  align-content: flex-end;
+  justify-content: flex-end;
+}
+
+form.new-post textarea.field {
+  height: 200px;
+}
+
+form.new-post input.submit {
+  border-radius: 2px;
+  border: 1px solid rgba(147,128,108,.25);
+  padding: 0.5em 0.75em;
+  background-color: rgba(52, 98, 124, 0.12);
+  color: #666;
+  flex: 0 0 25%;
+  font-weight: 400;
+}
