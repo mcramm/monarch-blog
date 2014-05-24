@@ -37,35 +37,8 @@ main.container {
   padding: 1.5em;
 }
 
-header.nav {
-  text-align: right;
-}
-
-header.nav a {
-  font-size: 0.8em;
-  padding: 0.5em;
-  text-decoration: none;
-}
-
-header.nav a:visited {
-  color: blue;
-}
-
-header.nav a:hover {
-  text-decoration: underline;
-}
-
 header.nav a:last-child {
   padding-right: 0;
-}
-
-div.alert {
-  background-color: #fdf7f7;
-  border: 2px solid rgba(219, 105, 101, 0.6);
-  border-radius: 2px;
-  color: #666;
-  padding: 1em;
-  margin: 1.2em 0;
 }
 
 div.posts a {
