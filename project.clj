@@ -7,7 +7,7 @@
                  [org.clojure/java.jdbc "0.3.3"]
                  [postgresql "9.3-1101.jdbc4"]]
   :plugins [[lein-ring "0.8.10"]
-            [monarch "0.1.2"]]
+            [monarch "0.2.0"]]
   :ring {:handler monarch-blog.handler/app}
   :profiles
   {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]
