@@ -15,9 +15,14 @@
   (into [] (sql/query spec
                       ["select * from posts order by id"])))
 
+(defn get-post [id]
+  (first
+    (sql/query spec
+               ["select * from posts where id = ?" id])))
+
 (defn save-post [{title :title body :body :as post}]
   (when-not (or (empty? title) (empty? body))
-    (sql/insert! spec :posts post)))
+    (first (sql/insert! spec :posts post))))
 
 (defn layout [& body]
   (html
@@ -51,13 +56,19 @@
              [:div.form-line
               (submit-button {:class "submit"} "Submit")])))
 
+(defn post-view [{title :title body :body}]
+  (layout
+    [:h3 title]
+    [:div body]))
 
 (defroutes app-routes
   (GET "/" [] (index (all-posts)))
   (GET "/posts/new" {post :params} (new-post post))
   (POST "/posts" {post :params} (if-let [saved-post (save-post post)]
-                                  (redirect (str "/posts/" (:id (first saved-post))))
+                                  (redirect (str "/posts/" (:id saved-post)))
                                   (new-post post)))
+  (GET "/posts/:id" {params :params} (post-view
+                                       (get-post (Integer. (:id params)))))
   (route/resources "/")
   (route/not-found "Not Found"))
 

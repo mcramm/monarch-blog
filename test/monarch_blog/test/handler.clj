@@ -69,6 +69,14 @@
       (is (= (:status response) 200))
       (is (= (:body response) (new-post test-post)))))
 
+  (testing "post view"
+    (let [test-post (save-post {:title "Finches" :body "I like finches they are cool."})
+          response (app (request :get (str "/posts/" (:id test-post))))]
+      (is (= (:status response) 200))
+      (is (= (:body response) (layout
+                                [:h3 (:title test-post)]
+                                [:div (:body test-post)])))))
+
   (testing "not-found route"
     (let [response (app (request :get "/invalid"))]
       (is (= (:status response) 404)))))
